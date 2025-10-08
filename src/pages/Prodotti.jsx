@@ -15,14 +15,18 @@ const Prodotti = () => {
     // Ottieni lo stato 'budget' direttamente
     const { budget } = useBudget();
 
+    //richiamo l'API per ottenere la lista dei prodotti
     function fetchProducts() {
         axios.get("https://fakestoreapi.com/products")
-            .then((res) =>
-                setProducts(res.data))
+            .then((res) => {
+                setProducts(res.data)
+                setFilteredProducts(res.data)
+            })
             .catch(error => console.log(error)
             )
     }
 
+    // filtro i prodotti in base al prezzo
     function filtraProdotti() {
         setFilteredProducts(products.filter(product => product.price <= 30));
     }
@@ -32,8 +36,9 @@ const Prodotti = () => {
     }
 
     useEffect(() => {
-        fetchProducts()
-        setFilteredProducts(products);
+        fetchProducts();
+        // setFilteredProducts(products);
+        console.log(filteredProducts);
     }, [])
 
     useEffect(() => {
