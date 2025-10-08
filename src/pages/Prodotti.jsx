@@ -13,7 +13,7 @@ const Prodotti = () => {
     const [filteredProducts, setFilteredProducts] = useState([products]);
 
     // Ottieni lo stato 'budget' direttamente
-    const { budget, toggleBudget } = useBudget();
+    const { budget } = useBudget();
 
     function fetchProducts() {
         if (!budget) {
