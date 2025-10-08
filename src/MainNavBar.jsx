@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useBudget } from "./context/BudgetContext";
 
 const MainNavBar = () => {
+
+    // Ottieni lo stato 'budget' e la funzione 'togglebudget'
+    const { budget, toggleBudget } = useBudget();
 
     return (
         <nav>
@@ -15,6 +19,9 @@ const MainNavBar = () => {
                     <NavLink to="/products">Prodotti</NavLink>
                 </li>
             </ul>
+            <button style={{ background: budget === true ? '#333' : '#f0f0f0', color: budget === true ? "white" : "black" }} onClick={toggleBudget}>
+                {budget === true ? 'DISATTIVA' : 'ATTIVA'} BUDGET
+            </button>
         </nav>
     )
 }
