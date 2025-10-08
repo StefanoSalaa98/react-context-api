@@ -15,20 +15,21 @@ const Prodotti = () => {
     // Ottieni lo stato 'budget' direttamente
     const { budget, toggleBudget } = useBudget();
 
-    // richiamo l'API per ottenere la lista dei prodotti
     function fetchProducts() {
-        axios.get("https://fakestoreapi.com/products")
-            .then((res) => {
-                setProducts(res.data)
-                if (budget) {
-                    filtraProdotti()
-                }
-                else {
+        if (!budget) {
+            axios.get("https://fakestoreapi.com/products")
+                .then((res) => {
                     setFilteredProducts(res.data)
-                }
-            })
-            .catch(error => console.log(error)
-            )
+                })
+                .catch(error => console.log(error))
+        }
+        else {
+            axios.get("https://fakestoreapi.com/products")
+                .then((res) => {
+                    setFilteredProducts(res.data.filter(product => product.price <= 30));
+                })
+                .catch(error => console.log(error))
+        }
     }
 
     // filtro i prodotti in base al prezzo
@@ -39,17 +40,6 @@ const Prodotti = () => {
     useEffect(() => {
         fetchProducts();
     }, [budget])
-
-    // cleanup function, viene eseguita quando il componente viene smontato
-    // se il budget è attivo, lo disattivo
-    useEffect(() => {
-        return () => {
-            if (budget) {
-                toggleBudget();
-            }
-        }
-    }, [])
-
 
     return (
         <div className="container">
